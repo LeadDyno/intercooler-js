@@ -289,6 +289,16 @@ nav: docs
           This can be useful for implementing UI patterns such as infinite scroll or lazy image loading.
         </p>
 
+        <p>
+          <b>Note: </b>Out of the box, Intercooler supports <code>scrolled-into-view</code> for layouts where the scrolling viewport is the same height as the entire window.
+          Loading two additional libraries ahead of loading Intercooler.js automatically gives it support for scrolling in smaller viewports (there is no flag, the mere presence of the libraries triggers the enhanced behavior).
+          A CSS class called <code>ic-scroll-container</code> is used to indicate to Intercooler which parent element is the viewport. When no parent element is tagged with <code>ic-scroll-container</code> the viewport defaults to
+          the entire window (same behavior as regular Intercooler).
+          <div class="live-demo">
+          See the examples section for a <a href="examples/infinitescroll-viewport.html">working example</a>.
+          </div>
+        </p>
+
       </section>
 
       <section>
