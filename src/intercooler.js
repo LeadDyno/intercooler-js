@@ -339,8 +339,24 @@ var Intercooler = Intercooler || (function() {
   }
 
 
+
   function beforeRequest(elt) {
+
     elt.addClass('disabled');
+
+    var check_disable_inputs = closestAttrValue(elt, "ic-disable-inputs");
+    if (check_disable_inputs === 'true') {
+      var are_inputs = [
+        'input', 'textarea', 'select', 'button', 'fieldset', 
+        'optgroup', 'option', 'textarea'];
+      elt.closest("form").find(are_inputs.join(", ")).each(function(){
+        var $elt = $(this);
+        $elt.addClass('disabled');
+        $elt.attr("disabled", true);
+       
+      })
+    
+    }
     elt.addClass('ic-request-in-flight');
     elt.data('ic-request-in-flight', true);
   }
@@ -353,6 +369,19 @@ var Intercooler = Intercooler || (function() {
       hideIndicator(globalIndicator);
     }
     elt.removeClass('disabled');
+    var check_disable_inputs = closestAttrValue(elt, "ic-disable-inputs");
+    if ( check_disable_inputs === 'true') {
+        // are inputs and are disabled
+        var are_inputs = [
+            'input', 'textarea', 'select', 'button', 'fieldset', 
+            'optgroup', 'option', 'textarea'];
+        elt.closest("form").find(are_inputs.join(", ")).each(function(){
+          var $elt = $(this);
+          $elt.removeClass("disabled");
+            $elt.removeAttr('disabled');
+        });
+       
+    }
     elt.removeClass('ic-request-in-flight');
     elt.data('ic-request-in-flight', false);
     if (elt.data('ic-next-request')) {
@@ -1235,7 +1264,8 @@ var Intercooler = Intercooler || (function() {
 
     if (macroIs(macro, 'ic-action')) {
       setIfAbsent(elt, 'ic-trigger-on', 'default');
-    }
+    } 
+
 
     // non-action attributes
     var value = null;
